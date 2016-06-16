@@ -24,10 +24,6 @@
     [self buildTableView];
     [self loadSystemSoundData];
 }
--(BOOL)prefersStatusBarHidden
-{
-    return YES;
-}
 
 - (void)loadSystemSoundData
 {
@@ -50,15 +46,11 @@ static NSString * identified = @"_systemSoundInfoCell";
     UITableViewCell * cell = [tableView dequeueReusableCellWithIdentifier:identified];
     if (!cell) {
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleSubtitle reuseIdentifier:identified];
-        cell.selectionStyle = UITableViewCellSelectionStyleNone;
     }
 
     SystemSoundInfo * cellInfo = [_tableData objectAtIndex:indexPath.row];
-    cell.textLabel.text       = cellInfo.soundName;
-    cell.detailTextLabel.text = [NSString stringWithFormat:@"音频编号 %d",cellInfo.soundID];
-    
-    cell.textLabel.font       = [UIFont fontWithName:@"Avenir-BookOblique" size:16.f];
-    cell.detailTextLabel.font = [UIFont fontWithName:@"AppleSDGothicNeo-Regular" size:13.f];
+    cell.textLabel.text        = cellInfo.soundName;
+    cell.detailTextLabel.text  = [NSString stringWithFormat:@"音频编号 %d",cellInfo.soundID];
     
     return cell;
 }
@@ -68,15 +60,12 @@ static NSString * identified = @"_systemSoundInfoCell";
     return _tableData.count;
 }
 
-- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
-{
-    return 70;
-}
-
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
     SystemSoundInfo * soundInfo = _tableData[indexPath.row];
     [[SystemSoundManager defaultCenter] playWithSound:soundInfo.soundID];
 }
+
+-(BOOL)prefersStatusBarHidden{ return YES; }
 
 @end
